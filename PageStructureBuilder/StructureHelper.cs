@@ -10,7 +10,8 @@ namespace PageStructureBuilder
 {
     public class StructureHelper
     {
-        public virtual TResult GetOrCreateChildPage<TResult>(PageReference parentLink, string pageName)
+        public virtual TResult GetOrCreateChildPage<TResult>(
+            PageReference parentLink, string pageName)
             where TResult : PageData
         {
             var child = GetExistingChild<TResult>(parentLink, pageName);
@@ -23,23 +24,29 @@ namespace PageStructureBuilder
             return child;
         }
 
-        TResult GetExistingChild<TResult>(PageReference parentLink, string pageName)
+        private TResult GetExistingChild<TResult>(
+            PageReference parentLink, string pageName)
             where TResult : PageData
         {
             var children = DataFactory.Instance.GetChildren(parentLink);
             return children
                 .OfType<TResult>()
-                .FirstOrDefault(c => c.PageName.Equals(pageName, StringComparison.InvariantCulture));
+                .FirstOrDefault(c => c.PageName.Equals(
+                    pageName, StringComparison.InvariantCulture));
         }
 
-        TResult CreateChild<TResult>(PageReference parentLink, string pageName)
+        private TResult CreateChild<TResult>(
+            PageReference parentLink, string pageName)
             where TResult : PageData
         {
             TResult child;
-            var resultPageTypeId = PageTypeResolver.Instance.GetPageTypeID(typeof(TResult));
-            child = DataFactory.Instance.GetDefaultPageData(parentLink, resultPageTypeId.Value) as TResult;
+            var resultPageTypeId = PageTypeResolver.Instance
+                .GetPageTypeID(typeof(TResult));
+            child = DataFactory.Instance.GetDefaultPageData(
+                parentLink, resultPageTypeId.Value) as TResult;
             child.PageName = pageName;
-            DataFactory.Instance.Save(child, SaveAction.Publish, AccessLevel.NoAccess);
+            DataFactory.Instance.Save(
+                child, SaveAction.Publish, AccessLevel.NoAccess);
             return child;
         }
     }
