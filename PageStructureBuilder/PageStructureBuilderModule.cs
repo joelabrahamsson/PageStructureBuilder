@@ -27,42 +27,42 @@ namespace PageStructureBuilder
             e.Page.ParentLink = parentLink;
         }
 
-PageReference GetNewParent(
-    PageReference originalParentLink, PageData page)
-{
-    var queriedParents = new List<PageReference>();
-
-    var organizingParent = GetChildrenOrganizer(originalParentLink);
-
-    PageReference parentLink = originalParentLink;
-    while (organizingParent != null 
-        && ListContains(queriedParents, parentLink))
-    {
-        queriedParents.Add(parentLink);
-        var newParentLink = organizingParent.GetParentForPage(page);
-        if (PageReference.IsValue(newParentLink))
+        private PageReference GetNewParent(
+            PageReference originalParentLink, PageData page)
         {
-            parentLink = newParentLink;
+            var queriedParents = new List<PageReference>();
+
+            var organizingParent = GetChildrenOrganizer(originalParentLink);
+
+            PageReference parentLink = originalParentLink;
+            while (organizingParent != null 
+                && ListContains(queriedParents, parentLink))
+            {
+                queriedParents.Add(parentLink);
+                var newParentLink = organizingParent.GetParentForPage(page);
+                if (PageReference.IsValue(newParentLink))
+                {
+                    parentLink = newParentLink;
+                }
+                organizingParent = GetChildrenOrganizer(parentLink);
+            }
+            return parentLink;
         }
-        organizingParent = GetChildrenOrganizer(parentLink);
-    }
-    return parentLink;
-}
 
-bool ListContains(List<PageReference> queriedParents, PageReference parentLink)
-{
-    return queriedParents.Count(p => p.CompareToIgnoreWorkID(parentLink)) == 0;
-}
+        private bool ListContains(List<PageReference> queriedParents, PageReference parentLink)
+        {
+            return queriedParents.Count(p => p.CompareToIgnoreWorkID(parentLink)) == 0;
+        }
 
-IOrganizeChildren GetChildrenOrganizer(PageReference pageLink)
-{
-    if (PageReference.IsNullOrEmpty(pageLink))
-    {
-        return null;
-    }
+        private IOrganizeChildren GetChildrenOrganizer(PageReference pageLink)
+        {
+            if (PageReference.IsNullOrEmpty(pageLink))
+            {
+                return null;
+            }
 
-    return DataFactory.Instance.GetPage(pageLink) as IOrganizeChildren;
-}
+            return DataFactory.Instance.GetPage(pageLink) as IOrganizeChildren;
+        }
 
         void DataFactoryMovedPage(object sender, PageEventArgs e)
         {

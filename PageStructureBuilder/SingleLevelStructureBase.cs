@@ -3,7 +3,8 @@ using PageTypeBuilder;
 
 namespace PageStructureBuilder
 {
-    public abstract class SingleLevelStructureBase<TContainer> : TypedPageData, IOrganizeChildren
+    public abstract class SingleLevelStructureBase<TContainer> 
+        : TypedPageData, IOrganizeChildren
         where TContainer : PageData
     {
         public virtual PageReference GetParentForPage(PageData page)
@@ -20,7 +21,9 @@ namespace PageStructureBuilder
 
             var structureHelper = new StructureHelper();
 
-            var container = structureHelper.GetOrCreateChildPage<TContainer>(PageLink, GetContainerPageName(page));
+            var container = structureHelper
+                .GetOrCreateChildPage<TContainer>(
+                PageLink, GetContainerPageName(page));
             return container.PageLink;
         }
 
