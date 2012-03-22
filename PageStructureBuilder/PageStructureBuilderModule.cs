@@ -56,7 +56,8 @@ namespace PageStructureBuilder
         }
 
         /// <summary>
-        /// Lists the contains.<br/>
+        /// Checks if a parent has already been queried. This would happen
+        /// if a parent returns itself as a parent.<br/>
         /// Based on <see cref="PageReference.CompareToIgnoreWorkID"/>,
         /// - will return true there is a match where ID and RemoteSite
         /// are the same, otherwise false.
