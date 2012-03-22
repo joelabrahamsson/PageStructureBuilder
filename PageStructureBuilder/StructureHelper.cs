@@ -8,8 +8,21 @@ using PageTypeBuilder;
 
 namespace PageStructureBuilder
 {
+    /// <summary>
+    /// Helper to simplify creating child pages.<br/>
+    /// Allows code to be agnostic as to whether the page
+    /// already exists.<br/>
+    /// See also <a href="http://joelabrahamsson.com/entry/automatically-organize-episerver-pages">http://joelabrahamsson.com/entry/automatically-organize-episerver-pages</a>
+    /// </summary>
     public class StructureHelper
     {
+        /// <summary>
+        /// Gets the existing child page or create it and return it if it is new.
+        /// </summary>
+        /// <typeparam name="TResult">The type of page to find / create.</typeparam>
+        /// <param name="parentLink">The parent link.</param>
+        /// <param name="pageName">Name of the page to find / create.</param>
+        /// <returns>The new / existing page at the specified location.</returns>
         public virtual TResult GetOrCreateChildPage<TResult>(
             PageReference parentLink, string pageName)
             where TResult : PageData
