@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using EPiServer;
 using EPiServer.Core;
@@ -27,17 +28,10 @@ namespace PageStructureBuilder
             PageReference parentLink, string pageName)
             where TResult : PageData
         {
-            var child = GetExistingChild<TResult>(parentLink, pageName);
-            if (child != null)
-            {
-                return child;
-            }
-
-            child = CreateChild<TResult>(parentLink, pageName);
-            return child;
+            return GetExistingChild<TResult>(parentLink, pageName) ?? CreateChild<TResult>(parentLink, pageName);
         }
 
-        private TResult GetExistingChild<TResult>(
+        private static TResult GetExistingChild<TResult>(
             PageReference parentLink, string pageName)
             where TResult : PageData
         {
@@ -48,15 +42,23 @@ namespace PageStructureBuilder
                     pageName, StringComparison.InvariantCulture));
         }
 
-        private TResult CreateChild<TResult>(
+        private static TResult CreateChild<TResult>(
             PageReference parentLink, string pageName)
             where TResult : PageData
         {
-            TResult child;
             var resultPageTypeId = PageTypeResolver.Instance
                 .GetPageTypeID(typeof(TResult));
-            child = DataFactory.Instance.GetDefaultPageData(
+            if (resultPageTypeId == null)
+            {
+                throw new Exception(String.Format("PageTypeID not found for {0}", typeof(TResult)));
+            }
+            var child = DataFactory.Instance.GetDefaultPageData(
                 parentLink, resultPageTypeId.Value) as TResult;
+            if (child == null)
+            {
+                throw new Exception(string.Format(
+                    "Failed to GetDefaultPageData for parent {0} and PageTypeID {1}", parentLink, resultPageTypeId));
+            }
             child.PageName = pageName;
             DataFactory.Instance.Save(
                 child, SaveAction.Publish, AccessLevel.NoAccess);
