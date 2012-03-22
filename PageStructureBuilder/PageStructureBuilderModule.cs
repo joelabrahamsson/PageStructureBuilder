@@ -60,7 +60,13 @@ namespace PageStructureBuilder
             return queriedParents.Any(p => p.CompareToIgnoreWorkID(parentLink));
         }
 
-        private IOrganizeChildren GetChildrenOrganizer(PageReference pageLink)
+        /// <summary>
+        /// Gets the page as a <see cref="IOrganizeChildren"/> if it's page type
+        /// implements this interface, otherwise null is returned.
+        /// </summary>
+        /// <param name="pageLink">The page link.</param>
+        /// <returns></returns>
+        private static IOrganizeChildren GetChildrenOrganizer(PageReference pageLink)
         {
             if (PageReference.IsNullOrEmpty(pageLink))
             {
