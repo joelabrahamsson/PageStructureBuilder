@@ -9,6 +9,12 @@ using EPiServer.Security;
 
 namespace PageStructureBuilder
 {
+    /// <summary>
+    /// Class for automatically putting pages in a predefined folder hierarchy<br/>
+    /// on the fly as they created / moved. E.g. root/News/yyyy/mm/dd/pagename.<br/>
+    /// The structure is defined by the page type, which must implement <see cref="IOrganizeChildren"/>.<br/>
+    /// See also <a href="http://joelabrahamsson.com/entry/automatically-organize-episerver-pages">http://joelabrahamsson.com/entry/automatically-organize-episerver-pages</a>
+    /// </summary>
     [ModuleDependency(typeof(PageTypeBuilder.Initializer))]
     public class PageStructureBuilderModule : IInitializableModule
     {
