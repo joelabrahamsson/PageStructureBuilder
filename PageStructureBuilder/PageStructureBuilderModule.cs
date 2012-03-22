@@ -33,6 +33,13 @@ namespace PageStructureBuilder
             e.Page.ParentLink = parentLink;
         }
 
+        /// <summary>
+        /// Finds the highest parent in the hierarchy of parents until an entry that doesn't
+        /// implement <see cref="IOrganizeChildren"/> is found (or a repeated parent is found).
+        /// </summary>
+        /// <param name="originalParentLink">The original parent link.</param>
+        /// <param name="page">The page.</param>
+        /// <returns>The highest parent in the hierarchy that implements IOrganizeChildren</returns>
         private PageReference GetNewParent(
             PageReference originalParentLink, PageData page)
         {
