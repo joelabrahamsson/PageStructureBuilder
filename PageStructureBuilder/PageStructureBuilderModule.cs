@@ -42,7 +42,7 @@ namespace PageStructureBuilder
 
             PageReference parentLink = originalParentLink;
             while (organizingParent != null 
-                && !ListContains(queriedParents, parentLink))
+                && !ParentAlreadyQueried(queriedParents, parentLink))
             {
                 queriedParents.Add(parentLink);
                 var newParentLink = organizingParent.GetParentForPage(page);
@@ -64,7 +64,7 @@ namespace PageStructureBuilder
         /// <param name="queriedParents">The list of parents to search.</param>
         /// <param name="parentLink">The parent to check for.</param>
         /// <returns>True if the parent has been found in the list, false otherwise.</returns>
-        private static bool ListContains(IEnumerable<PageReference> queriedParents, PageReference parentLink)
+        private static bool ParentAlreadyQueried(IEnumerable<PageReference> queriedParents, PageReference parentLink)
         {
             return queriedParents.Any(p => p.CompareToIgnoreWorkID(parentLink));
         }
