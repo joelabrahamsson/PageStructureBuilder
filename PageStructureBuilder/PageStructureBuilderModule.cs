@@ -55,6 +55,15 @@ namespace PageStructureBuilder
             return parentLink;
         }
 
+        /// <summary>
+        /// Lists the contains.<br/>
+        /// Based on <see cref="PageReference.CompareToIgnoreWorkID"/>,
+        /// - will return true there is a match where ID and RemoteSite
+        /// are the same, otherwise false.
+        /// </summary>
+        /// <param name="queriedParents">The list of parents to search.</param>
+        /// <param name="parentLink">The parent to check for.</param>
+        /// <returns>True if the parent has been found in the list, false otherwise.</returns>
         private static bool ListContains(IEnumerable<PageReference> queriedParents, PageReference parentLink)
         {
             return queriedParents.Any(p => p.CompareToIgnoreWorkID(parentLink));
