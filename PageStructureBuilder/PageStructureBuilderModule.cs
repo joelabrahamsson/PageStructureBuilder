@@ -42,7 +42,7 @@ namespace PageStructureBuilder
 
             PageReference parentLink = originalParentLink;
             while (organizingParent != null 
-                && ListContains(queriedParents, parentLink))
+                && !ListContains(queriedParents, parentLink))
             {
                 queriedParents.Add(parentLink);
                 var newParentLink = organizingParent.GetParentForPage(page);
@@ -55,9 +55,9 @@ namespace PageStructureBuilder
             return parentLink;
         }
 
-        private bool ListContains(List<PageReference> queriedParents, PageReference parentLink)
+        private static bool ListContains(IEnumerable<PageReference> queriedParents, PageReference parentLink)
         {
-            return queriedParents.Count(p => p.CompareToIgnoreWorkID(parentLink)) == 0;
+            return queriedParents.Any(p => p.CompareToIgnoreWorkID(parentLink));
         }
 
         private IOrganizeChildren GetChildrenOrganizer(PageReference pageLink)
