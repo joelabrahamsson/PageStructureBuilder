@@ -24,7 +24,7 @@ namespace PageStructureBuilder
             DataFactory.Instance.MovedPage += DataFactoryMovedPage;
         }
 
-        void DataFactoryCreatingPage(object sender, PageEventArgs e)
+        private static void DataFactoryCreatingPage(object sender, PageEventArgs e)
         {
             var parentLink = e.Page.ParentLink;
             var page = e.Page;
@@ -40,8 +40,7 @@ namespace PageStructureBuilder
         /// <param name="originalParentLink">The original parent link.</param>
         /// <param name="page">The page.</param>
         /// <returns>The highest parent in the hierarchy that implements IOrganizeChildren</returns>
-        private PageReference GetNewParent(
-            PageReference originalParentLink, PageData page)
+        private static PageReference GetNewParent(PageReference originalParentLink, PageData page)
         {
             var queriedParents = new List<PageReference>();
 
@@ -93,7 +92,7 @@ namespace PageStructureBuilder
             return DataFactory.Instance.GetPage(pageLink) as IOrganizeChildren;
         }
 
-        void DataFactoryMovedPage(object sender, PageEventArgs e)
+        private static void DataFactoryMovedPage(object sender, PageEventArgs e)
         {
             var parentLink = e.TargetLink;
             var page = DataFactory.Instance.GetPage(e.PageLink);
