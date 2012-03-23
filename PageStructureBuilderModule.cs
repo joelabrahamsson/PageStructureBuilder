@@ -80,17 +80,18 @@ namespace PageStructureBuilder
         }
 
         /// <summary>
-        /// Finds the highest parent in the hierarchy of parents until an entry that doesn't
-        /// implement <see cref="IOrganizeChildren"/> is found (or a repeated parent is found).
+        /// If the requested parent is a <see cref="IOrganizeChildren"/> then
+        /// the implementation of the IOrganizeChildren parent is queried to find
+        /// where the page should actually be placed, and this is returned for use.
         /// </summary>
-        /// <param name="originalParentLink">The original parent link.</param>
+        /// <param name="requestedParent">The parent that the page was about to be placed under.</param>
         /// <param name="page">The page.</param>
-        /// <returns>The highest parent in the hierarchy that implements IOrganizeChildren</returns>
-        private static PageReference GetNewParent(PageReference originalParentLink, PageData page)
+        /// <returns>The parent that the page should actually be placed under.</returns>
+        private static PageReference GetNewParent(PageReference requestedParent, PageData page)
         {
             var queriedParents = new List<PageReference>();
-            var organizingParent = GetPageAsIOrganizeChildren(originalParentLink);
-            var parentLink = originalParentLink;
+            var organizingParent = GetPageAsIOrganizeChildren(requestedParent);
+            var parentLink = requestedParent;
 
             while (organizingParent != null 
                 && !ParentAlreadyQueried(queriedParents, parentLink))
