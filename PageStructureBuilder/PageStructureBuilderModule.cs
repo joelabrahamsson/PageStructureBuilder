@@ -46,29 +46,37 @@ namespace PageStructureBuilder
         /// <summary>
         /// Event handling method which intercepts pages being created
         /// and if the original parent implements <see cref="IOrganizeChildren"/>
-        /// then changes the new page's parent to fit
+        /// then changes the new page's parent to fit rules for that parent's type.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="EPiServer.PageEventArgs"/> instance containing the event data.</param>
         private static void DataFactoryCreatingPage(object sender, PageEventArgs e)
         {
-            var parentLink = e.Page.ParentLink;
-            var page = e.Page;
-            parentLink = GetNewParent(parentLink, page);
-
-            e.Page.ParentLink = parentLink;
+            // change the parent this page is going to be added under to the new parent
+            e.Page.ParentLink = GetNewParent(e.Page.ParentLink, e.Page);
         }
 
+        /// <summary>
+        /// Event handling method which intercepts pages being moved
+        /// and if the original parent implements <see cref="IOrganizeChildren"/>
+        /// then changes destination parent to fit rules for that parent's type.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EPiServer.PageEventArgs"/> instance containing the event data.</param>
         private static void DataFactoryMovedPage(object sender, PageEventArgs e)
         {
-            var parentLink = e.TargetLink;
             var page = DataFactory.Instance.GetPage(e.PageLink);
-            parentLink = GetNewParent(parentLink, page);
-
-            if (PageReference.IsValue(parentLink) && !e.TargetLink.CompareToIgnoreWorkID(parentLink))
+            var parentLink = GetNewParent(e.TargetLink, page);
+            if (!PageReference.IsValue(parentLink))
             {
-                DataFactory.Instance.Move(page.PageLink, parentLink, AccessLevel.NoAccess, AccessLevel.NoAccess);
+                return; //no new parent found
             }
+
+            if (e.TargetLink.CompareToIgnoreWorkID(parentLink))
+            {
+                return; //parent is unchanged from original request
+            }
+            DataFactory.Instance.Move(page.PageLink, parentLink, AccessLevel.NoAccess, AccessLevel.NoAccess);
         }
 
         /// <summary>
