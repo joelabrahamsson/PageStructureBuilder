@@ -28,6 +28,12 @@ namespace PageStructureBuilder.OrganizationTypes
             return container.PageLink;
         }
 
+        /// <summary>
+        /// Derived classes should override this method to control
+        /// the naming convention of the generated containing pages (i.e. folders).
+        /// </summary>
+        /// <param name="childPage">The child page for which to find the folder name.</param>
+        /// <returns>The name of the folder this page should be placed in.</returns>
         protected abstract string GetContainerPageName(PageData childPage);
     }
 }
