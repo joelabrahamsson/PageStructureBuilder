@@ -18,12 +18,20 @@ namespace PageStructureBuilder
     [ModuleDependency(typeof(PageTypeBuilder.Initializer))]
     public class PageStructureBuilderModule : IInitializableModule
     {
+        /// <summary>
+        /// Attaches to EpiServer events for page creation / moving
+        /// </summary>
+        /// <param name="context">The context.</param>
         public void Initialize(InitializationEngine context)
         {
             DataFactory.Instance.CreatingPage += DataFactoryCreatingPage;
             DataFactory.Instance.MovedPage += DataFactoryMovedPage;
         }
 
+        /// <summary>
+        /// Detaches from EpiServer events for page creation / moving
+        /// </summary>
+        /// <param name="context">The context.</param>
         public void Uninitialize(InitializationEngine context)
         {
             DataFactory.Instance.CreatingPage -= DataFactoryCreatingPage;
@@ -35,6 +43,13 @@ namespace PageStructureBuilder
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Event handling method which intercepts pages being created
+        /// and if the original parent implements <see cref="IOrganizeChildren"/>
+        /// then changes the new page's parent to fit
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EPiServer.PageEventArgs"/> instance containing the event data.</param>
         private static void DataFactoryCreatingPage(object sender, PageEventArgs e)
         {
             var parentLink = e.Page.ParentLink;
