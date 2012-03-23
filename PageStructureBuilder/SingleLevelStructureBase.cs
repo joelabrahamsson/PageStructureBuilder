@@ -3,6 +3,10 @@ using PageTypeBuilder;
 
 namespace PageStructureBuilder
 {
+    /// <summary>
+    /// Base class for all single folder based automatic page organisation.
+    /// </summary>
+    /// <typeparam name="TContainer">The type of the container (folder) pages.</typeparam>
     public abstract class SingleLevelStructureBase<TContainer> 
         : TypedPageData, IOrganizeChildren
         where TContainer : PageData
