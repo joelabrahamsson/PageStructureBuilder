@@ -90,7 +90,7 @@ namespace PageStructureBuilder
         {
             var queriedParents = new List<PageReference>();
 
-            var organizingParent = GetChildrenOrganizer(originalParentLink);
+            var organizingParent = GetPageAsIOrganizeChildren(originalParentLink);
 
             PageReference parentLink = originalParentLink;
             while (organizingParent != null 
@@ -102,7 +102,7 @@ namespace PageStructureBuilder
                 {
                     parentLink = newParentLink;
                 }
-                organizingParent = GetChildrenOrganizer(parentLink);
+                organizingParent = GetPageAsIOrganizeChildren(parentLink);
             }
             return parentLink;
         }
@@ -113,7 +113,7 @@ namespace PageStructureBuilder
         /// </summary>
         /// <param name="pageLink">The page link.</param>
         /// <returns></returns>
-        private static IOrganizeChildren GetChildrenOrganizer(PageReference pageLink)
+        private static IOrganizeChildren GetPageAsIOrganizeChildren(PageReference pageLink)
         {
             if (PageReference.IsNullOrEmpty(pageLink))
             {
