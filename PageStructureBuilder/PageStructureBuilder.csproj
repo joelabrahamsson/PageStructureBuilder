@@ -164,14 +164,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DateStructureBase.cs" />
+    <Compile Include="Extensions\PageReferenceChildExtensions.cs" />
     <Compile Include="IOrganizeChildren.cs" />
+    <Compile Include="OrganizationTypes\AlphabeticalStructureBase.cs" />
+    <Compile Include="OrganizationTypes\DateStructureBase.cs" />
+    <Compile Include="OrganizationTypes\PageTypeStructureBase.cs" />
+    <Compile Include="OrganizationTypes\SingleLevelStructureBase.cs" />
     <Compile Include="PageStructureBuilderModule.cs" />
-    <Compile Include="PageTypeStructureBase.cs" />
-    <Compile Include="SingleLevelStructureBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AlphabeticalStructureBase.cs" />
-    <Compile Include="PageReferenceChildExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

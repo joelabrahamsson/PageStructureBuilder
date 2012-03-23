@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using EPiServer;
 using EPiServer.Core;
@@ -6,7 +6,7 @@ using EPiServer.DataAccess;
 using EPiServer.Security;
 using PageTypeBuilder;
 
-namespace PageStructureBuilder
+namespace PageStructureBuilder.Extensions
 {
     /// <summary>
     /// Contains extension methods for PageReference to simplify finding / creating child pages.<br/>
