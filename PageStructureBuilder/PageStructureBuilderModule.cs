@@ -89,10 +89,9 @@ namespace PageStructureBuilder
         private static PageReference GetNewParent(PageReference originalParentLink, PageData page)
         {
             var queriedParents = new List<PageReference>();
-
             var organizingParent = GetPageAsIOrganizeChildren(originalParentLink);
+            var parentLink = originalParentLink;
 
-            PageReference parentLink = originalParentLink;
             while (organizingParent != null 
                 && !ParentAlreadyQueried(queriedParents, parentLink))
             {
