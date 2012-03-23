@@ -23,11 +23,7 @@ namespace PageStructureBuilder
                 return PageLink;
             }
 
-            var structureHelper = new StructureHelper();
-
-            var container = structureHelper
-                .GetOrCreateChildPage<TContainer>(
-                PageLink, GetContainerPageName(page));
+            var container = PageLink.GetOrCreateChildPage<TContainer>(GetContainerPageName(page));
             return container.PageLink;
         }
 

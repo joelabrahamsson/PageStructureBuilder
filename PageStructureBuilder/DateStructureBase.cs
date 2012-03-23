@@ -1,5 +1,6 @@
 ﻿using System;
 using EPiServer.Core;
+using EPiServer.DataAccess;
 using PageTypeBuilder;
 
 namespace PageStructureBuilder
@@ -35,13 +36,9 @@ namespace PageStructureBuilder
             }
 
             var pageDate = GetStructureDate(page);
-            var structureHelper = new StructureHelper();
-            var yearPage = structureHelper.GetOrCreateChildPage<TYear>(
-                PageLink, pageDate.Year.ToString());
-            var monthPage = structureHelper.GetOrCreateChildPage<TMonth>(
-                yearPage.PageLink, pageDate.Month.ToString());
-            var dayPage = structureHelper.GetOrCreateChildPage<TDay>(
-                monthPage.PageLink, pageDate.Day.ToString());
+            var yearPage = PageLink.GetOrCreateChildPage<TYear>(pageDate.Year.ToString());
+            var monthPage = yearPage.PageLink.GetOrCreateChildPage<TMonth>(pageDate.Month.ToString());
+            var dayPage = monthPage.PageLink.GetOrCreateChildPage<TDay>(pageDate.Day.ToString());
             return dayPage.PageLink;
         }
 
