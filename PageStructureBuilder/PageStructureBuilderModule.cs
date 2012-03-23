@@ -24,6 +24,17 @@ namespace PageStructureBuilder
             DataFactory.Instance.MovedPage += DataFactoryMovedPage;
         }
 
+        public void Uninitialize(InitializationEngine context)
+        {
+            DataFactory.Instance.CreatingPage -= DataFactoryCreatingPage;
+            DataFactory.Instance.MovingPage -= DataFactoryMovedPage;
+        }
+
+        public void Preload(string[] parameters)
+        {
+            throw new NotImplementedException();
+        }
+
         private static void DataFactoryCreatingPage(object sender, PageEventArgs e)
         {
             var parentLink = e.Page.ParentLink;
@@ -31,6 +42,18 @@ namespace PageStructureBuilder
             parentLink = GetNewParent(parentLink, page);
 
             e.Page.ParentLink = parentLink;
+        }
+
+        private static void DataFactoryMovedPage(object sender, PageEventArgs e)
+        {
+            var parentLink = e.TargetLink;
+            var page = DataFactory.Instance.GetPage(e.PageLink);
+            parentLink = GetNewParent(parentLink, page);
+
+            if (PageReference.IsValue(parentLink) && !e.TargetLink.CompareToIgnoreWorkID(parentLink))
+            {
+                DataFactory.Instance.Move(page.PageLink, parentLink, AccessLevel.NoAccess, AccessLevel.NoAccess);
+            }
         }
 
         /// <summary>
@@ -62,21 +85,6 @@ namespace PageStructureBuilder
         }
 
         /// <summary>
-        /// Checks if a parent has already been queried. This would happen
-        /// if a parent returns itself as a parent.<br/>
-        /// Based on <see cref="PageReference.CompareToIgnoreWorkID"/>,
-        /// - will return true there is a match where ID and RemoteSite
-        /// are the same, otherwise false.
-        /// </summary>
-        /// <param name="queriedParents">The list of parents to search.</param>
-        /// <param name="parentLink">The parent to check for.</param>
-        /// <returns>True if the parent has been found in the list, false otherwise.</returns>
-        private static bool ParentAlreadyQueried(IEnumerable<PageReference> queriedParents, PageReference parentLink)
-        {
-            return queriedParents.Any(p => p.CompareToIgnoreWorkID(parentLink));
-        }
-
-        /// <summary>
         /// Gets the page as a <see cref="IOrganizeChildren"/> if it's page type
         /// implements this interface, otherwise null is returned.
         /// </summary>
@@ -92,27 +100,19 @@ namespace PageStructureBuilder
             return DataFactory.Instance.GetPage(pageLink) as IOrganizeChildren;
         }
 
-        private static void DataFactoryMovedPage(object sender, PageEventArgs e)
+        /// <summary>
+        /// Checks if a parent has already been queried. This would happen
+        /// if a parent returns itself as a parent.<br/>
+        /// Based on <see cref="PageReference.CompareToIgnoreWorkID"/>,
+        /// - will return true there is a match where ID and RemoteSite
+        /// are the same, otherwise false.
+        /// </summary>
+        /// <param name="queriedParents">The list of parents to search.</param>
+        /// <param name="parentLink">The parent to check for.</param>
+        /// <returns>True if the parent has been found in the list, false otherwise.</returns>
+        private static bool ParentAlreadyQueried(IEnumerable<PageReference> queriedParents, PageReference parentLink)
         {
-            var parentLink = e.TargetLink;
-            var page = DataFactory.Instance.GetPage(e.PageLink);
-            parentLink = GetNewParent(parentLink, page);
-
-            if (PageReference.IsValue(parentLink) && !e.TargetLink.CompareToIgnoreWorkID(parentLink))
-            {
-                DataFactory.Instance.Move(page.PageLink, parentLink, AccessLevel.NoAccess, AccessLevel.NoAccess);
-            }
-        }
-
-        public void Uninitialize(InitializationEngine context)
-        {
-            DataFactory.Instance.CreatingPage -= DataFactoryCreatingPage;
-            DataFactory.Instance.MovingPage -= DataFactoryMovedPage;
-        }
-
-        public void Preload(string[] parameters)
-        {
-            throw new NotImplementedException();
+            return queriedParents.Any(p => p.CompareToIgnoreWorkID(parentLink));
         }
     }
 }
