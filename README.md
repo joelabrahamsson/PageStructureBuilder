@@ -1,14 +1,9 @@
 # About this fork
 
+This library is provided to assist in creating / organising pages and folders in EpiServer 6.
+
 * Source at https://github.com/timabell/PageStructureBuilder
 * Originally forked from https://github.com/joelabrahamsson/PageStructureBuilder
-
-# Background
-
-Read the following 2 part blog entry from the original author
-
-* http://joelabrahamsson.com/entry/automatically-organize-episerver-pages
-* http://joelabrahamsson.com/entry/automatically-organize-episerver-pages-part-2/
 
 # What's different from upstream
 
@@ -17,6 +12,15 @@ Read the following 2 part blog entry from the original author
 * Child page creation / finding turned into public extension methods of PageReference (for independent reuse).
 
 # Usage
+
+## Build dependencies
+
+As well as referencing this project's dll in your project, you will also need to add this project's dependencies. 
+
+* Install nuget http://nuget.org/
+* Add the episerver nuget package source http://nuget.episerver.com/feed/packages.svc/
+* Copy the nuget references from into your project https://github.com/timabell/PageStructureBuilder/blob/master/packages.config
+* Enable nuget package restore to have nuget automatically fetch the dependencies.
 
 ## Automatic folder hierarchies
 
@@ -38,15 +42,6 @@ To use these, reference namespace PageStructureBuilder.Extensions and then call 
 * GetExistingChild(pageName)
 * CreateChild(pageName)
 
-## Build dependencies
-
-As well as referencing this project's dll in your project, you will also need to add this project's dependencies. 
-
-* Install nuget http://nuget.org/
-* Add the episerver nuget package source http://nuget.episerver.com/feed/packages.svc/
-* Copy the nuget references from into your project https://github.com/timabell/PageStructureBuilder/blob/master/packages.config
-* Enable nuget package restore to have nuget automatically fetch the dependencies.
-
 ## User side (i.e. EpiServer Admin users)
 
 The automatically organised pages are used as follows:
@@ -56,3 +51,11 @@ The automatically organised pages are used as follows:
 * Watch with wonder as the newly created page jumps into the correct subfolder, which is created as required.
 
 Note that the automatic organisation also applies to pages that are moved into the self-organising folder, so if you move a page into the root of the self-organising folder it will jump back into the folder designated by the developers.
+
+# Background
+
+Read the blog entries from the original author
+
+* http://joelabrahamsson.com/entry/automatically-organize-episerver-pages
+* http://joelabrahamsson.com/entry/automatically-organize-episerver-pages-part-2/
+* http://joelabrahamsson.com/entry/automatically-organize-episerver-pages-part-3/

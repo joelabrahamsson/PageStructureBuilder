@@ -82,7 +82,8 @@ namespace PageStructureBuilder
         /// <summary>
         /// If the requested parent is a <see cref="IOrganizeChildren"/> then
         /// the implementation of the IOrganizeChildren parent is queried to find
-        /// where the page should actually be placed, and this is returned for use.
+        /// where the page should actually be placed, and this is returned for use.<br/>
+        /// If that parent is also an IOrganizeChildren, then the process is repeated.
         /// </summary>
         /// <param name="requestedParent">The parent that the page was about to be placed under.</param>
         /// <param name="page">The page.</param>
@@ -90,7 +91,8 @@ namespace PageStructureBuilder
         /// <remarks>If the parent implementation of IOrganizeChildren that is found returns
         /// a new parent folder that *also* implements IOrganizeChildren, then that parent type
         /// is in turn asked for a new updated parent page. This is repeated until a non-organizing
-        /// parent is found.</remarks>
+        /// parent is found.<br/>
+        /// See also <a href="http://joelabrahamsson.com/entry/automatically-organize-episerver-pages-part-3/">http://joelabrahamsson.com/entry/automatically-organize-episerver-pages-part-3/</a></remarks>
         private static PageReference GetNewParent(PageReference requestedParent, PageData page)
         {
             var queriedParents = new List<PageReference>();
