@@ -66,7 +66,7 @@ namespace PageStructureBuilder
         private static void DataFactoryMovedPage(object sender, PageEventArgs e)
         {
             var page = DataFactory.Instance.GetPage(e.PageLink);
-            var parentLink = GetNewParent(e.TargetLink, page); // todo: explain why move uses "getpage(pagelink)", but create uses "page" as param to getnewparent
+            var parentLink = GetNewParent(e.TargetLink, page);
             if (!PageReference.IsValue(parentLink))
             {
                 return; //no new parent found
