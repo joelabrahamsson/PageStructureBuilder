@@ -19,7 +19,7 @@ As well as referencing this project's dll in your project, you will also need to
 
 * Install nuget http://nuget.org/
 * Add the episerver nuget package source http://nuget.episerver.com/feed/packages.svc/
-* Copy the nuget references from into your project https://github.com/timabell/PageStructureBuilder/blob/master/packages.config
+* Copy the nuget references from https://github.com/timabell/PageStructureBuilder/blob/master/packages.config into your project.
 * Enable nuget package restore to have nuget automatically fetch the dependencies.
 
 ## Automatic folder hierarchies
