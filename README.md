@@ -38,6 +38,15 @@ To use these, reference namespace PageStructureBuilder.Extensions and then call 
 * GetExistingChild(pageName)
 * CreateChild(pageName)
 
+## Build dependencies
+
+As well as referencing this project's dll in your project, you will also need to add this project's dependencies. 
+
+* Install nuget http://nuget.org/
+* Add the episerver nuget package source http://nuget.episerver.com/feed/packages.svc/
+* Copy the nuget references from into your project https://github.com/timabell/PageStructureBuilder/blob/master/packages.config
+* Enable nuget package restore to have nuget automatically fetch the dependencies.
+
 ## User side (i.e. EpiServer Admin users)
 
 The automatically organised pages are used as follows:
