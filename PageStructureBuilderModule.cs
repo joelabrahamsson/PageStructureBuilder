@@ -87,6 +87,10 @@ namespace PageStructureBuilder
         /// <param name="requestedParent">The parent that the page was about to be placed under.</param>
         /// <param name="page">The page.</param>
         /// <returns>The parent that the page should actually be placed under.</returns>
+        /// <remarks>If the parent implementation of IOrganizeChildren that is found returns
+        /// a new parent folder that *also* implements IOrganizeChildren, then that parent type
+        /// is in turn asked for a new updated parent page. This is repeated until a non-organizing
+        /// parent is found.</remarks>
         private static PageReference GetNewParent(PageReference requestedParent, PageData page)
         {
             var queriedParents = new List<PageReference>();
