@@ -32,9 +32,18 @@ Read the following 2 part blog entry from the original author
 
 You may find it useful to use the extension methods for finding / creating child pages.
 
-To use these, reference namespace PageStructureBuilder.Extensions and then call one of the following as
-a method on a PageReference object:
+To use these, reference namespace PageStructureBuilder.Extensions and then call one of the following as a method on a PageReference object:
 
 * GetOrCreateChildPage(pageName)
 * GetExistingChild(pageName)
 * CreateChild(pageName)
+
+## User side (i.e. EpiServer Admin users)
+
+The automatically organised pages are used as follows:
+
+* Create folder (i.e. a page) that is one of the self organising Page Types created by your developers.
+* Create a new page of any type directly inside this new folder (not in any subfolders if they already exist).
+* Watch with wonder as the newly created page jumps into the correct subfolder, which is created as required.
+
+Note that the automatic organisation also applies to pages that are moved into the self-organising folder, so if you move a page into the root of the self-organising folder it will jump back into the folder designated by the developers.
